@@ -7,7 +7,7 @@
 #Variables
 
 # DateTime stamp format that is used in the tar file names.
-STAMP=`date +%d-%m-%Y_%H%M%S`
+STAMP=`date +%Y-%m-%d_%H%M%S`
 
 # The screen session name, this is so the script knows where to send the save-all command (for autosave)
 SCREENNAME="minecraft"
@@ -63,7 +63,8 @@ then
    echo "$(date +"%G-%m-%d %H:%M:%S") [LOG] Working in directory: $PWD."
 fi
 
-BACKUPDATE=`date +%d-%m-%Y`
+BACKUPDATE=$STAMP
+#BACKUPDATE=`date +%Y-%m-%d`
 FINALDIR="$BACKUPDIR/$BACKUPDATE"
 
 if [ $LOGIT -eq 1 ]
@@ -181,7 +182,7 @@ screen -x $SCREENNAME -X stuff "`printf "save-on\r"`"
 if [ $SCP -eq 1 ]
 then
    echo "$(date +"%G-%m-%d %H:%M:%S") [LOG] Sending files to remote host via SCP"
-   scp -P $SCPPORT $FINALDIR/$BFILE $SCPUSERNAME@$SCPHOST:$SCPPATH
+   scp -r -P $SCPPORT $FINALDIR $SCPUSERNAME@$SCPHOST:$SCPPATH
 fi
 
 if [ $NOTIFY -eq 1 ]
